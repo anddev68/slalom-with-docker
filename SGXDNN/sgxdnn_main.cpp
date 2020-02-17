@@ -112,6 +112,7 @@ extern "C" {
 
 	// forward pass
 	void predict_float(float* input, float* output, int batch_size) {
+		printf("called predict_float\n");
 
 		array4d input_dims = {batch_size,
 							  model_float.input_shape[0],
@@ -120,6 +121,8 @@ extern "C" {
 
 		int input_size = batch_size * model_float.input_shape[0] * model_float.input_shape[1] * model_float.input_shape[2];
 		assert(input_size != 0);
+
+		printf("input_size %d\n", input_size);
 
 		// copy input into enclave
 		float* inp_copy = model_float.mem_pool->alloc<float>(input_size);

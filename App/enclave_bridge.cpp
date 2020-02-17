@@ -197,6 +197,7 @@ extern "C"
     }
 
     void load_model_float(unsigned long int eid, char* model_json, float** filters) {
+        printf("model: %s\n", model_json);
     	sgx_status_t ret = ecall_load_model_float(eid, model_json, filters);
     	if (ret != SGX_SUCCESS) {
 			print_error_message(ret);

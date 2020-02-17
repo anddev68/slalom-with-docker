@@ -1,5 +1,5 @@
-TF_INC := $(shell python -c 'import tensorflow as tf; print(tf.sysconfig.get_include())')
-TF_LIB := $(shell python -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
+TF_INC := $(shell python3 -c 'import tensorflow as tf; print(tf.sysconfig.get_include())')
+TF_LIB := $(shell python3 -c 'import tensorflow as tf; print(tf.sysconfig.get_lib())')
 
 ######## SGX SDK Settings ########
 
@@ -66,7 +66,7 @@ else
         App_C_Flags += -DNDEBUG -UEDEBUG -UDEBUG
 endif
 
-App_Cpp_Flags := $(App_C_Flags) -std=c++11 -shared -DUSE_SGX
+App_Cpp_Flags := $(App_C_Flags) -std=c++11 -shared -DUSE_SGX -Wignored-attributes -w
 App_Link_Flags := $(SGX_COMMON_CFLAGS) -L$(SGX_LIBRARY_PATH) -l$(Urts_Library_Name) -L$(TF_LIB) -ltensorflow_framework -pthread -fopenmp
 
 ifneq ($(SGX_MODE), HW)
@@ -94,7 +94,7 @@ Enclave_Cpp_Files := Enclave/Enclave.cpp Enclave/sgxdnn.cpp
 SGXDNN_Cpp_Files := sgxdnn_main.cpp json11.cpp Crypto.cpp sgxaes.cpp aes-stream.cpp
 #SGXDNN_Cpp_Files += aesni_ghash.cpp aesni_key.cpp  aesni-wrap.cpp
 Enclave_Include_Paths := -IEnclave -I$(SGX_SDK)/include -I$(SGX_SDK)/include/tlibc -I$(SGX_SDK)/include/libcxx
-Enclave_Include_Paths += -IInclude -ISGXDNN -IInclude/eigen3_sgx -I/usr/lib/gcc/x86_64-linux-gnu/5.4.0/include 
+Enclave_Include_Paths += -IInclude -ISGXDNN -IInclude/eigen3_sgx -I/usr/lib/gcc/x86_64-linux-gnu/7.4.0/include 
 
 CC_BELOW_4_9 := $(shell expr "`$(CC) -dumpversion`" \< "4.9")
 ifeq ($(CC_BELOW_4_9), 1)
@@ -105,7 +105,7 @@ endif
 
 Enclave_C_Flags += $(Enclave_Include_Paths)
 Enclave_Cpp_Flags := $(Enclave_C_Flags) -std=c++11 -nostdinc++ -DUSE_SGX -DEIGEN_NO_CPUID
-Enclave_Cpp_Flags += -march=native -maes
+Enclave_Cpp_Flags += -march=native -maes -Wignored-attributes -w
 
 # To generate a proper enclave, it is recommended to follow below guideline to link the trusted libraries:
 #    1. Link sgx_trts with the `--whole-archive' and `--no-whole-archive' options,

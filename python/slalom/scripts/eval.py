@@ -82,6 +82,8 @@ def main(_):
                 dtype = np.float32 if not args.verify else DTYPE_VERIFY
                 model_json, weights = model_to_json(sess, model, args.preproc, dtype=dtype,
                                                     bits_w=model_info['bits_w'], bits_x=model_info['bits_x'])
+                print(model_json)
+                exit(1)
                 sgxutils.load_model(model_json, weights, dtype=dtype, verify=args.verify, verify_preproc=args.preproc)
 
             num_classes = np.prod(model.output.get_shape().as_list()[1:])

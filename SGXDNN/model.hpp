@@ -333,8 +333,9 @@ namespace SGXDNN
             printf("In load model with verif mode=%d, verif_preproc=%d\n", is_verif_mode, verif_preproc);
 
             std::string err;
-			auto model_obj = json11::Json::parse(model_json, err);
-            printf("Json parsed\n");
+			auto model_obj = json11::Json::parse(model_json, err);	
+			printf("%s\n", err.c_str());
+			printf("Json parsed\n");
 
             int shift_w = model_obj["shift_w"].int_value();
             int shift_x = model_obj["shift_x"].int_value();

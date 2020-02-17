@@ -1,0 +1,11 @@
+version: '3'
+services:
+  sgx-dev:
+    ports:
+      - "127.0.0.1:1234:22"
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/slalom
